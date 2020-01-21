@@ -97,7 +97,8 @@ public class MoneyCalculatorMVC {
                 
             }
             divisaPointer=exchange.substring(1,4);
-        }   
+        }
+        
         double rate=excDestino/excOrigen; //Converts from currencyfrom to euros and from euros to currencyto
         return new ExchangeRate(from, to, LocalDate.of(2020, Month.JANUARY, 10), rate);
     }
