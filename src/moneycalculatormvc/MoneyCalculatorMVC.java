@@ -6,7 +6,6 @@ import java.time.Month;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-import static javafx.application.Platform.exit;
 
 public class MoneyCalculatorMVC {
 
@@ -18,12 +17,10 @@ public class MoneyCalculatorMVC {
     private Money money;
     private Currency currencyto;
     private ExchangeRate exchange;
-    private Map<String,Currency> currencies =new HashMap();
+    private CurrencyList currencyList;
 
     public MoneyCalculatorMVC() {
-        currencies.put("USD", new Currency("USD", "Dólar americano", "$"));
-        currencies.put("EUR", new Currency("EUR", "Euros", "€"));
-        currencies.put("GBP", new Currency("GBP", "Libras Esterlinas", "£"));
+        currencyList=new CurrencyList();
     }
     
     
@@ -37,18 +34,23 @@ public class MoneyCalculatorMVC {
         System.out.println("Introduce una cantidad");
         Scanner scanner = new Scanner(System.in);
         Double amount = scanner.nextDouble();
-        System.out.println("Introduce una divisa inicial");
-        Currency currencyfrom=null;
         
-        while(null==currencyfrom){
+        System.out.println("Introduce una divisa inicial");
+        
+        while(true){
             String code = scanner.nextLine().toUpperCase();
-            currencyfrom=currencies.get(code);
+            Currency currency = currencyList.get(code);
+            money=new Money(amount, currency);
+            if(currency!=null) break;
+            System.out.println("Divisa desconocida");
         }
-        money=new Money(amount, currencyfrom);
+        
         System.out.println("Introduce una divisa final");
-        while(currencyto==null){
+        while(true){
             String code=scanner.nextLine().toUpperCase();
-            currencyto = currencies.get(code);
+            currencyto = currencyList.get(code);
+            if(currencyto!=null) break;
+            System.out.println("Divisa desconocida");
         }
     }
 
@@ -83,7 +85,7 @@ public class MoneyCalculatorMVC {
                 String exchangeRate = exchange.substring(6);
                 excDestino=Double.parseDouble(exchangeRate);
             }
-            if(divisaPointer.equals(from.getSymbol())){
+            if(divisaPointer.equals(from.getCode())){
                 String exchangeRate = exchange.substring(6);
                 excOrigen=Double.parseDouble(exchangeRate);
             }
@@ -97,7 +99,6 @@ public class MoneyCalculatorMVC {
             divisaPointer=exchange.substring(1,4);
         }   
         double rate=excDestino/excOrigen; //Converts from currencyfrom to euros and from euros to currencyto
-    
         return new ExchangeRate(from, to, LocalDate.of(2020, Month.JANUARY, 10), rate);
     }
 }
