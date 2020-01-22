@@ -3,8 +3,6 @@ package moneycalculatormvc;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 public class MoneyCalculatorMVC {
@@ -36,7 +34,6 @@ public class MoneyCalculatorMVC {
         Double amount = scanner.nextDouble();
         
         System.out.println("Introduce una divisa inicial");
-        
         while(true){
             String code = scanner.nextLine().toUpperCase();
             Currency currency = currencyList.get(code);
