@@ -1,5 +1,9 @@
 package moneycalculatormvc;
 
+import moneycalculatormvc.model.Currency;
+import moneycalculatormvc.model.ExchangeRate;
+import moneycalculatormvc.model.CurrencyList;
+import moneycalculatormvc.model.Money;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.Month;
